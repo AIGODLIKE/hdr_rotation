@@ -78,7 +78,7 @@ class HdrRotationOperator(Operator, HdrProperty):
 
     def invoke(self, context, event):
         shading = context.space_data.shading
-        self.start_value = event.mouse_x
+        self.start_value = event.mouse_region_x
 
         if context.area and context.area.type == "VIEW_3D":
             if self.use_scene_world:
@@ -173,17 +173,17 @@ class HdrRotationOperator(Operator, HdrProperty):
                 mouse_xy.append(mouse)
                 return r
 
-        self.x_repeat = mouse_(context.area.width, event.mouse_region_x, self.x_repeat)
-        self.y_repeat = mouse_(context.area.height, event.mouse_region_y, self.y_repeat)
+        self.x_repeat = mouse_(context.region.width, event.mouse_region_x, self.x_repeat)
+        self.y_repeat = mouse_(context.region.height, event.mouse_region_y, self.y_repeat)
 
-        context.window.cursor_warp(context.area.x + mouse_xy[0], context.area.y + mouse_xy[1])
-        context.window.cursor_warp(context.area.x + mouse_xy[0], context.area.y + mouse_xy[1])
-        context.window.cursor_warp(context.area.x + mouse_xy[0], context.area.y + mouse_xy[1])
-        context.window.cursor_warp(context.area.x + mouse_xy[0], context.area.y + mouse_xy[1])
+        context.window.cursor_warp(context.region.x + mouse_xy[0], context.region.y + mouse_xy[1])
+        context.window.cursor_warp(context.region.x + mouse_xy[0], context.region.y + mouse_xy[1])
+        context.window.cursor_warp(context.region.x + mouse_xy[0], context.region.y + mouse_xy[1])
+        context.window.cursor_warp(context.region.x + mouse_xy[0], context.region.y + mouse_xy[1])
 
         if mouse_data == 'MOUSE_DATA_REPEAT':
-            return [mouse_xy[0] + (context.area.width - (safe_mouse + safe_area) * 2) * self.x_repeat,
-                    mouse_xy[1] + (context.area.height - (safe_mouse + safe_area) * 2) * self.y_repeat]
+            return [mouse_xy[0] + (context.region.width - (safe_mouse + safe_area) * 2) * self.x_repeat,
+                    mouse_xy[1] + (context.region.height - (safe_mouse + safe_area) * 2) * self.y_repeat]
         elif mouse_data == 'MOUSE_DATA':
             return mouse_xy
         else:
