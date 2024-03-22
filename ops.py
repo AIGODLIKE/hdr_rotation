@@ -6,9 +6,6 @@ from bpy.types import Operator
 
 
 def get_node(node_tree=None, match_type=None):
-    """
-    输入一个节点树，反回一个列表
-    """
     if match_type is None:
         match_type = {'GROUP', 'MAPPING'}
 
@@ -63,14 +60,9 @@ class HdrProperty:
 
 
 class HdrRotationOperator(Operator, HdrProperty):
-    bl_idname = 'hdr.rotation'
+    bl_idname = __package__
     bl_label = 'HDR Rotation'
-    bl_options = {'UNDO', "GRAB_CURSOR", "MACRO"}
-    bl_description = """
-    SHIFT 右键旋转HDR
-    如果在渲染模式或是预览模式，测使用HDR旋转
-
-    如果是在实体模式，则设置3D游标"""
+    bl_options = {'UNDO'}
 
     def __init__(self):
         self.start_rotation = None
@@ -83,7 +75,7 @@ class HdrRotationOperator(Operator, HdrProperty):
         if context.area and context.area.type == "VIEW_3D":
             if self.use_scene_world:
                 if len(self.nodes) == 0:
-                    self.report({'WARNING'}, "世界环境无映射节点")
+                    self.report({'WARNING'}, "World Environment Not Map Node")
                     return {'FINISHED', 'PASS_THROUGH'}
                 else:
                     self.start_rotation = degrees(self.nodes[0].inputs[2].default_value[2])
@@ -130,10 +122,10 @@ class HdrRotationOperator(Operator, HdrProperty):
                 for node in context.scene.world.node_tree.nodes:
                     if node.type == 'GROUP':
                         for inputs in node.inputs:
-                            if inputs.name in ['Rotation'] and inputs.bl_label in ['Vector']:
+                            en = inputs.name in ['Rotation'] and inputs.bl_label in ['Vector']
+                            cn = inputs.name in ['HDR旋转', 'Z旋转']
+                            if en or cn:
                                 vector_list.append(inputs)
-                            if inputs.name in ['HDR旋转', 'Z旋转']:
-                                inputs_list.append(inputs)
 
                 for node in self.nodes:
                     node.inputs[2].default_value[2] = radians(rotation_value)
@@ -143,20 +135,14 @@ class HdrRotationOperator(Operator, HdrProperty):
                 for node in vector_list:
                     node.default_value[2] = radians(rotation_value)
 
-                context.area.header_text_set('旋转世界HDR 角度:%s     控制节点数: %s' % (
+                context.area.header_text_set('HDR Angle:%f.2     Node Count: %s' % (
                     int(rotation_value), (len(inputs_list) + len(inputs_list) + len(vector_list))))
             else:  # 用预览的功能来做
                 context.area.spaces[0].shading.studiolight_rotate_z = radians(rotation_value)
-                context.area.header_text_set(f'{value} 旋转预览HDR 角度:{rotation_value}')
+                context.area.header_text_set(f'{value} Preview HDR Angle:{rotation_value}')
         return {'RUNNING_MODAL'}
 
     def mouse_region(self, context, event, safe_area=100, mouse_data='MOUSE_DATA_REPEAT'):
-        """
-        X和Y的内容
-        如果超过一次则
-        context
-        event
-        """
         safe_mouse = 10
         mouse_xy = []
 
