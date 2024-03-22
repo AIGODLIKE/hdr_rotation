@@ -60,7 +60,7 @@ class HdrProperty:
 
 
 class HdrRotationOperator(Operator, HdrProperty):
-    bl_idname = __package__
+    bl_idname = 'hdr.rotation'
     bl_label = 'HDR Rotation'
     bl_options = {'UNDO'}
 
