@@ -122,10 +122,10 @@ class HdrRotationOperator(Operator, HdrProperty):
                 for node in context.scene.world.node_tree.nodes:
                     if node.type == 'GROUP':
                         for inputs in node.inputs:
-                            en = inputs.name in ['Rotation'] and inputs.bl_label in ['Vector']
-                            cn = inputs.name in ['HDR旋转', 'Z旋转']
-                            if en or cn:
+                            if inputs.name in ['Rotation'] and inputs.bl_label in ['Vector']:
                                 vector_list.append(inputs)
+                            if inputs.name in ['HDR旋转', 'Z旋转']:
+                                inputs_list.append(inputs)
 
                 for node in self.nodes:
                     node.inputs[2].default_value[2] = radians(rotation_value)
