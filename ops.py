@@ -134,12 +134,8 @@ class HdrRotationOperator(Operator, HdrProperty):
                     node.default_value = radians(rotation_value)
                 for node in vector_list:
                     node.default_value[2] = radians(rotation_value)
-
-                context.area.header_text_set('HDR Angle:%f.2     Node Count: %s' % (
-                    int(rotation_value), (len(inputs_list) + len(inputs_list) + len(vector_list))))
             else:  # 用预览的功能来做
                 context.area.spaces[0].shading.studiolight_rotate_z = radians(rotation_value)
-                context.area.header_text_set(f'{value} Preview HDR Angle:{rotation_value}')
         return {'RUNNING_MODAL'}
 
     def mouse_region(self, context, event, safe_area=100, mouse_data='MOUSE_DATA_REPEAT'):
