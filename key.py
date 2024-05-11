@@ -10,13 +10,14 @@ kmi = None
 
 def register():
     global kmi
-    kmi = km.keymap_items.new(idname=HdrRotationOperator.bl_idname,
-                              type="RIGHTMOUSE",
-                              value="PRESS",
-                              ctrl=False,
-                              shift=True,
-                              alt=False,
-                              )
+    kmi = km.keymap_items.new(
+        idname=HdrRotationOperator.bl_idname,
+        type="RIGHTMOUSE",
+        value="PRESS",
+        ctrl=False,
+        shift=True,
+        alt=False,
+    )
 
 
 def unregister():
