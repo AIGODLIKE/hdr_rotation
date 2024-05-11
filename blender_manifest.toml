@@ -3,7 +3,7 @@ schema_version = "1.0.0"
 # Example of manifest file for a Blender extension
 # Change the values according to your extension
 id = "hdr_rotation"
-version = "1.0.1"
+version = "1.0.2"
 name = "Hdr Rotation"
 tagline = "Rotation HDR by Shift+Right Drag in 3D View"
 maintainer = "AIGODLIKE Community, 小萌新"
