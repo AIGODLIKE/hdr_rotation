@@ -45,13 +45,17 @@ class HdrRotationOperator(RayCast):
 
         self.start_rotation_angle = None
         self.start_x = None
-        self.nodes = get_node(node_tree=bpy.context.scene.world.node_tree)
         self.is_rotation_hdr = self.shading.type in {'MATERIAL', 'RENDERED'}
         self.use_scene_world = is_material or is_rendered
 
         self.inputs_list = []
         self.vector_list = []
         self.rotation = None  # 调用的旋转方法,用于替换执行方法优化性能
+
+        if bpy.context.scene.world is not None:
+            self.nodes = get_node(node_tree=bpy.context.scene.world.node_tree)
+        else:
+            self.nodes = None
 
     def init_node(self, context):
         for node in context.scene.world.node_tree.nodes:
@@ -73,9 +77,13 @@ class HdrRotationOperator(RayCast):
                 # mouse over model
                 return {'FINISHED', 'PASS_THROUGH'}
             if self.use_scene_world:
-                if len(self.nodes) == 0:
-                    self.report({'WARNING'}, "World Environment Not Mapping Node,Please add a Mapping node")
+                if self.nodes is None:
+                    self.report({'WARNING'}, "No World, Please add a World")
                     return {'FINISHED', 'PASS_THROUGH'}
+                elif len(self.nodes) == 0:
+                    self.report({'WARNING'}, "World Environment Not Mapping Node, Please add a Mapping node")
+                    return {'FINISHED', 'PASS_THROUGH'}
+
                 self.init_node(context)
                 self.rotation = self.rotation_scene_world_shader
                 self.start_rotation_angle = degrees(self.get_init_node_rotation())
