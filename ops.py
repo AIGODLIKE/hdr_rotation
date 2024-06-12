@@ -1,7 +1,8 @@
 from math import degrees, radians
 
 import bpy
-from bpy.types import Operator
+
+from .utils.ray_cast import RayCast
 
 
 def get_node(node_tree=None, match_type=None) -> [bpy.types.Node, ...]:
@@ -32,7 +33,7 @@ def check_modal_exit(event):
     return event.type == "RIGHTMOUSE" and event.value == "RELEASE"
 
 
-class HdrRotationOperator(Operator):
+class HdrRotationOperator(RayCast):
     bl_idname = 'hdr.rotation'
     bl_label = 'HDR Rotation'
     bl_options = {'UNDO'}
@@ -68,6 +69,9 @@ class HdrRotationOperator(Operator):
         self.start_x = event.mouse_region_x
 
         if context.area and context.area.type == "VIEW_3D":
+            if self.get_mouse_location_ray_cast(context, event):
+                # mouse over model
+                return {'FINISHED', 'PASS_THROUGH'}
             if self.use_scene_world:
                 if len(self.nodes) == 0:
                     self.report({'WARNING'}, "World Environment Not Mapping Node,Please add a Mapping node")
@@ -87,6 +91,7 @@ class HdrRotationOperator(Operator):
         return {'FINISHED', 'PASS_THROUGH'}
 
     def modal(self, context, event):
+        # print(event.value, event.type, event.value_prev, event.type_prev)
         if check_modal_exit(event):
             modal_exit()
             return {'FINISHED'}
