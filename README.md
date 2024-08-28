@@ -4,7 +4,7 @@ This is an addon for Blender that can rotate HDR texture in 3D viewport by drag 
 
 ## Feature
 
-In 3D viewport \(both renderd or material preview mode\), by press Shift + Right-Click on non objects, you can rotate the enviroment texture to preview shaders and lighting more practical and faster.
+In 3D viewport \(both renderd or material preview mode\), Shift + Right-Click on non objects, you can rotate the enviroment texture to preview shaders and lighting more practical and faster.
   
 When dragging on objects, Blender behaves as before that moves 3D cursor
 
