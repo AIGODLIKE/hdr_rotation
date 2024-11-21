@@ -66,9 +66,11 @@ def draw_keymap(layout):
 
 def register():
     global keymaps
+    from .ops import HdrRotationOperator
+
     kc = bpy.context.window_manager.keyconfigs.addon  # 获取按键配置addon的
     km = kc.keymaps.new(name='3D View', space_type='VIEW_3D', region_type='WINDOW')
-    kmi = km.keymap_items.new(idname='wm.call_menu_pie',
+    kmi = km.keymap_items.new(idname=HdrRotationOperator.bl_idname,
                               type="RIGHTMOUSE",
                               value='PRESS',
                               ctrl=False,
