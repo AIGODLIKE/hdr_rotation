@@ -9,7 +9,7 @@ bl_info = {
     "name": "Hdr Rotation",
     "description": "Rotation HDR by Shift+Right Drag in 3D View",
     "author": "AIGODLIKE Community(小萌新)",
-    "version": (1, 0, 4),
+    "version": (1, 0, 5),
     "blender": (4, 2, 0),
     "location": "3D View",
     "support": "COMMUNITY",
