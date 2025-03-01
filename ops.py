@@ -39,6 +39,8 @@ class HdrRotationOperator(RayCast):
     bl_options = {'UNDO'}
 
     def __init__(self):
+        super().__init__()
+
         shading = self.shading = bpy.context.space_data.shading
         is_material = (shading.type == 'MATERIAL' and shading.use_scene_world)
         is_rendered = (shading.type == 'RENDERED' and shading.use_scene_world_render)
