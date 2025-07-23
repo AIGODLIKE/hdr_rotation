@@ -1,6 +1,7 @@
 import bpy
 
 keymaps = []
+from mathutils import Vector, Euler, Matrix
 
 
 def get_kmi_operator_properties(kmi: 'bpy.types.KeyMapItem') -> dict:
