@@ -62,6 +62,11 @@ def draw_keymap(layout):
         if km:
             kmi = km.keymap_items.get(kmi.idname, get_kmi_operator_properties(kmi))
             if kmi:
+                keymap = None
+                if (not kmi.is_user_defined) and kmi.is_user_modified:
+                    keymap = km
+                layout.context_pointer_set("keymap", keymap)
+
                 draw_kmi(["USER", "ADDON", "DEFAULT"], kc, km, kmi, layout, 0)
 
 
